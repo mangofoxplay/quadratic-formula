@@ -66,6 +66,13 @@ def simplify(number: int): # simplify by finding largest perfect square factor
 minusB = -b
 twoA = 2 * a
 # √±
+root = None
+rootone = None
+roottwo = None
+
+
+minx = None
+maxx= None
 if D > 0:
     rootd = math.sqrt(D)
 
@@ -77,29 +84,45 @@ if D > 0:
     print(f"x = ---------------------")
     print(f"            2 • {ae}")
 
-
-    print(f"    |(-{be}+{rootd})/2 • {ae} = {minusB + rootd}/{twoA}= {(minusB + rootd) / twoA}")
+    rootone = (minusB + rootd) / twoA
+    roottwo = (minusB - rootd) / twoA
+    print(f"    |(-{be}+{rootd})/2 • {ae} = {minusB + rootd}/{twoA}= {rootone}")
     print(f"x = |")
-    print(f"    |(-{be}-{rootd})/2 • {ae} = {minusB - rootd}/{twoA}= {(minusB - rootd) / twoA}")
+    print(f"    |(-{be}-{rootd})/2 • {ae} = {minusB - rootd}/{twoA}= {roottwo}")
+    minx = min(rootone, roottwo) -3
+    maxx = max(rootone, roottwo) +3
 
 elif D == 0:
     print("There is one root.")
-
-    print(f"x = -{be}/ (2 • {ae}) = {minusB}/{twoA} = {minusB/twoA}")
-
+    root = minusB/twoA
+    print(f"x = -{be}/ (2 • {ae}) = {minusB}/{twoA} = {root}")
+    minx = root -3
+    maxx = root +3
 else:
-    print("The expression is incorrect.")
+    print("The expression is incorrect. There are no roots.")
 
-x = np.array(range(-10, 12))
+
+if minx:
+    x = np.arange(minx, maxx, 0.1)#np.array(range(0,4))
+else:
+    x = np.arange(-10, 10, 0.1)
+
+
+
+
+
 
 
 plt.xlabel('x axis')
 plt.ylabel('y axis')
 plt.grid(color="gray", alpha=1, linestyle='--')
 
-plt.plot(x, (a * x) ** 2 + (b * x) + c)
+plt.plot(x, a*x**2 + b*x + c)
 plt.plot(x, x*0) #line, at the points of intersection we have x
-
-plt.title(exp)
-
+if root:
+    plt.title(f"{exp}; x = {root}")
+elif rootone:
+    plt.title(f"{exp}; x₁ = {rootone}, x₂ = {roottwo}")
+else:
+    plt.title(f"{exp}; There are no roots.")
 plt.show()
